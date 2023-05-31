@@ -1,41 +1,43 @@
 package com.example.socialphotosapp
 
+import android.content.Intent
 import android.os.Bundle
-import android.widget.TextView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.navigation.ui.setupWithNavController
-import com.example.socialphotosapp.databinding.ActivityMainBinding
+import androidx.fragment.app.Fragment
+import com.example.socialphotosapp.fragments.HomeFragment
+import com.example.socialphotosapp.fragments.NotificationsFragment
+import com.example.socialphotosapp.fragments.ProfileFragment
+import com.example.socialphotosapp.fragments.SearchFragment
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var textView: TextView
+    internal var selectedFragment: Fragment? = null
 
     private val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
             R.id.nav_home -> {
-                textView.setText("Home")
-                return@OnNavigationItemSelectedListener true
+                selectedFragment = HomeFragment()
             }
             R.id.nav_search -> {
-                textView.setText("Search")
-                return@OnNavigationItemSelectedListener true
+                selectedFragment = SearchFragment()
             }
             R.id.nav_add_post -> {
-                textView.setText("Add Post")
                 return@OnNavigationItemSelectedListener true
             }
             R.id.nav_notifications -> {
-                textView.setText("Notifications")
-                return@OnNavigationItemSelectedListener true
+                selectedFragment = NotificationsFragment()
             }
             R.id.nav_profile -> {
-                textView.setText("Profile")
-                return@OnNavigationItemSelectedListener true
+                selectedFragment = ProfileFragment()
             }
+        }
+
+        if (selectedFragment != null) {
+            supportFragmentManager.beginTransaction().replace(
+                R.id.fragment_container,
+                selectedFragment!!
+            ).commit()
         }
 
         false
@@ -46,7 +48,11 @@ class MainActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_main)
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
-        textView = findViewById(R.id.message)
         navView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
+
+        supportFragmentManager.beginTransaction().replace(
+            R.id.fragment_container,
+            HomeFragment()
+        ).commit()
     }
 }
