@@ -3,7 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/evers/AndroidStudioProjects/SocialPhotosApp/app/src/main/res/layout/activity_main.xml" value="0.14596554850407978" />
+        <entry key="..\:/Users/evers/AndroidStudioProjects/SocialPhotosApp/app/src/main/res/drawable/buttons_background.xml" value="0.1235" />
+        <entry key="..\:/Users/evers/AndroidStudioProjects/SocialPhotosApp/app/src/main/res/drawable/inputs_background.xml" value="0.1235" />
+        <entry key="..\:/Users/evers/AndroidStudioProjects/SocialPhotosApp/app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="..\:/Users/evers/AndroidStudioProjects/SocialPhotosApp/app/src/main/res/menu/bottom_nav_menu.xml" value="0.2" />
       </map>
     </option>
@@ -13,12 +15,5 @@
   </component>
   <component name="ProjectType">
     <option name="id" value="Android" />
-  </component>
-  <component name="VisualizationToolProject">
-    <option name="state">
-      <ProjectState>
-        <option name="scale" value="0.22" />
-      </ProjectState>
-    </option>
   </component>
 </project>
