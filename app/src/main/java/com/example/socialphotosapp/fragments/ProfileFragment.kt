@@ -170,16 +170,12 @@ class ProfileFragment : Fragment() {
         val usersRef = FirebaseDatabase.getInstance().getReference().child("Users").child(profileId)
         usersRef.addValueEventListener(object: ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-//                if (context != null) {
-//                    return
-//                }
-
                 if (dataSnapshot.exists()) {
                     val user = dataSnapshot.getValue<User>(User::class.java)
                     Picasso.get().load(user!!.getImage()).placeholder(R.drawable.profile).into(view?.pro_image_profile_frag)
-                    view?.profile_fragment_username?.text = user.getUsername()
-                    view?.full_name_profile_frag?.text = user.getFullname()
-                    view?.bio_profile_frag?.text = user.getBio()
+                    view?.profile_fragment_username?.text = user!!.getUsername()
+                    view?.full_name_profile_frag?.text = user!!.getFullname()
+                    view?.bio_profile_frag?.text = user!!.getBio()
                 }
             }
 
