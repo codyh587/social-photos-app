@@ -103,9 +103,7 @@ class SearchFragment : Fragment() {
                 userAdapter?.notifyDataSetChanged()
             }
 
-            override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
-            }
+            override fun onCancelled(error: DatabaseError) {}
         })
     }
 
@@ -127,9 +125,7 @@ class SearchFragment : Fragment() {
                 }
             }
 
-            override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
-            }
+            override fun onCancelled(error: DatabaseError) {}
         })
     }
 
