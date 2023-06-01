@@ -6,6 +6,7 @@ import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.TextUtils
 import android.widget.Toast
 import com.example.socialphotosapp.model.User
 import com.google.android.gms.tasks.Continuation
@@ -85,29 +86,26 @@ class AccountSettingsActivity : AppCompatActivity() {
     }
 
     private fun updateUserInfoOnly() {
-        val usersRef = FirebaseDatabase.getInstance().reference.child("Users")
-        val userMap = HashMap<String, Any>()
-
         when {
-            full_name_profile_frag.text.toString() != "" -> {
-                userMap["fullname"] = full_name_profile_frag.text.toString().toLowerCase()
-            }
-            username_profile_frag.text.toString() != "" -> {
-                userMap["username"] = username_profile_frag.text.toString().toLowerCase()
-            }
-            bio_profile_frag.text.toString() != "" -> {
-                userMap["bio"] = bio_profile_frag.text.toString().toLowerCase()
-            }
-        }
+            full_name_profile_frag.text.toString() == "" -> Toast.makeText(this, "Please fill in full name field.", Toast.LENGTH_LONG).show()
+            username_profile_frag.text.toString() == "" -> Toast.makeText(this, "Please fill in username field.", Toast.LENGTH_LONG).show()
+            bio_profile_frag.text.toString() == "" -> Toast.makeText(this, "Please fill in bio field.", Toast.LENGTH_LONG).show()
+            else -> {
+                val usersRef = FirebaseDatabase.getInstance().reference.child("Users")
 
-        if (userMap.isEmpty()) {
-            Toast.makeText(this, "Please fill in a field.", Toast.LENGTH_LONG).show()
-        } else {
-            usersRef.child(firebaseUser.uid).updateChildren(userMap)
-            Toast.makeText(this, "Info edited successfully", Toast.LENGTH_LONG).show()
-            val intent = Intent(this@AccountSettingsActivity, MainActivity::class.java)
-            startActivity(intent)
-            finish()
+                val userMap = HashMap<String, Any>()
+                userMap["fullname"] = full_name_profile_frag.text.toString().toLowerCase()
+                userMap["username"] = username_profile_frag.text.toString().toLowerCase()
+                userMap["bio"] = bio_profile_frag.text.toString().toLowerCase()
+
+                usersRef.child(firebaseUser.uid).updateChildren(userMap)
+
+                Toast.makeText(this, "Information updated successfully.", Toast.LENGTH_LONG).show()
+
+                val intent = Intent(this@AccountSettingsActivity, MainActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
         }
     }
 
@@ -129,55 +127,49 @@ class AccountSettingsActivity : AppCompatActivity() {
     }
 
     private fun uploadImageAndUpdateInfo() {
-        val progressDialog = ProgressDialog(this)
-        progressDialog.setTitle("Account Settings")
-        progressDialog.setMessage("Please wait, updating info...")
-        progressDialog.show()
-
-        val userMap = HashMap<String, Any>()
         when {
-            full_name_profile_frag.text.toString() != "" -> {
-                userMap["fullname"] = full_name_profile_frag.text.toString().toLowerCase()
-            }
-            username_profile_frag.text.toString() != "" -> {
-                userMap["username"] = username_profile_frag.text.toString().toLowerCase()
-            }
-            bio_profile_frag.text.toString() != "" -> {
-                userMap["bio"] = bio_profile_frag.text.toString().toLowerCase()
-            }
-        }
+            imageUri == null -> Toast.makeText(this, "Please select an image.", Toast.LENGTH_LONG).show()
+            full_name_profile_frag.text.toString() == "" -> Toast.makeText(this, "Please fill in full name field.", Toast.LENGTH_LONG).show()
+            username_profile_frag.text.toString() == "" -> Toast.makeText(this, "Please fill in username field.", Toast.LENGTH_LONG).show()
+            bio_profile_frag.text.toString() == "" -> Toast.makeText(this, "Please fill in bio field.", Toast.LENGTH_LONG).show()
 
-        when {
-            userMap.isEmpty() -> {
-                Toast.makeText(this, "Please fill in a field.", Toast.LENGTH_LONG).show()
-            }
-            imageUri == null -> {
-                Toast.makeText(this, "Please select an image.", Toast.LENGTH_LONG).show()
-            }
             else -> {
+                val progressDialog = ProgressDialog(this)
+                progressDialog.setTitle("Account Settings")
+                progressDialog.setMessage("Please wait, updating info...")
+                progressDialog.show()
+
                 val fileRef = storageProfilePicRef!!.child(firebaseUser!!.uid + ".jpg")
+
                 var uploadTask: StorageTask<*>
                 uploadTask = fileRef.putFile(imageUri!!)
-                uploadTask.continueWithTask(
-                    Continuation<UploadTask.TaskSnapshot, Task<Uri>> { task ->
-                    if (!task.isSuccessful) {
+
+                uploadTask.continueWithTask(Continuation<UploadTask.TaskSnapshot, Task<Uri>> { task ->
+                    if (!task.isSuccessful)
+                    {
                         task.exception?.let {
                             throw it
                             progressDialog.dismiss()
                         }
                     }
                     return@Continuation fileRef.downloadUrl
-                }
-                ).addOnCompleteListener(OnCompleteListener<Uri> { task ->
+                })
+                    .addOnCompleteListener(OnCompleteListener<Uri> { task ->
                     if (task.isSuccessful) {
                         val downloadUrl = task.result
                         myUrl = downloadUrl.toString()
 
-                        val usersRef = FirebaseDatabase.getInstance().reference.child("Users")
-                        userMap["image"] = myUrl
-                        usersRef.child(firebaseUser.uid).updateChildren(userMap)
+                        val ref = FirebaseDatabase.getInstance().reference.child("Users")
 
-                        Toast.makeText(this, "Info updated successfully", Toast.LENGTH_LONG).show()
+                        val userMap = HashMap<String, Any>()
+                        userMap["fullname"] = full_name_profile_frag.text.toString().toLowerCase()
+                        userMap["username"] = username_profile_frag.text.toString().toLowerCase()
+                        userMap["bio"] = bio_profile_frag.text.toString().toLowerCase()
+                        userMap["image"] = myUrl
+
+                        ref.child(firebaseUser.uid).updateChildren(userMap)
+
+                        Toast.makeText(this, "Information updated successfully.", Toast.LENGTH_LONG).show()
                         val intent = Intent(this@AccountSettingsActivity, MainActivity::class.java)
                         startActivity(intent)
                         finish()
