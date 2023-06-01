@@ -67,8 +67,8 @@ class SignUpActivity : AppCompatActivity() {
 
         val userMap = HashMap<String, Any>()
         userMap["uid"] = currentUserID
-        userMap["fullname"] = fullName
-        userMap["username"] = username
+        userMap["fullname"] = fullName.toLowerCase()
+        userMap["username"] = username.toLowerCase()
         userMap["email"] = email
         userMap["bio"] = "I just joined. Say hello!"
         userMap["image"] = BuildConfig.DEFAULT_IMAGE_URL
