@@ -1,6 +1,7 @@
 package com.example.socialphotosapp.adapter
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,6 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.NonNull
 import androidx.recyclerview.widget.RecyclerView
+import com.example.socialphotosapp.MainActivity
 import com.example.socialphotosapp.R
 import com.example.socialphotosapp.model.Post
 import com.example.socialphotosapp.model.User
@@ -39,7 +41,69 @@ class PostAdapter(private val mContext: Context,
 
         val post = mPost[position]
         Picasso.get().load(post.getPostImage()).into(holder.postImage)
+
+        if (post.getDescription().equals("")) {
+            holder.description.visibility = View.GONE
+        } else {
+            holder.description.visibility = View.VISIBLE
+            holder.description.text = post.getDescription()
+        }
+
         publisherInfo(holder.profileImage, holder.username, holder.publisher, post.getPublisher())
+        isLikes(post.getPostId(), holder.likeButton)
+        numberOfLikes(post.getPostId(), holder.likes)
+
+        holder.likeButton.setOnClickListener {
+            if (holder.likeButton.tag == "Like") {
+                FirebaseDatabase.getInstance().reference
+                    .child("Likes")
+                    .child(post.getPostId())
+                    .child(firebaseUser!!.uid)
+                    .setValue(true)
+            } else {
+                FirebaseDatabase.getInstance().reference
+                    .child("Likes")
+                    .child(post.getPostId())
+                    .child(firebaseUser!!.uid)
+                    .removeValue()
+
+                val intent = Intent(mContext, MainActivity::class.java)
+                mContext.startActivity(intent)
+            }
+        }
+    }
+
+    private fun numberOfLikes(postId: String, likes: TextView) {
+        val likesRef = FirebaseDatabase.getInstance().reference.child("Likes").child(postId)
+
+        likesRef.addValueEventListener(object: ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    likes.text = dataSnapshot.childrenCount.toString() + " likes"
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {}
+        })
+    }
+
+    private fun isLikes(postId: String, likeButton: ImageView) {
+        val firebaseUser = FirebaseAuth.getInstance().currentUser
+        val likesRef = FirebaseDatabase.getInstance().reference.child("Likes").child(postId)
+
+        likesRef.addValueEventListener(object: ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                if (dataSnapshot.child(firebaseUser!!.uid).exists()) {
+                    likeButton.setImageResource(R.drawable.heart_clicked)
+                    likeButton.tag = "Liked"
+                } else {
+                    likeButton.setImageResource(R.drawable.heart_not_clicked)
+                    likeButton.tag = "Like"
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {}
+        })
     }
 
     inner class ViewHolder(@NonNull itemView: View): RecyclerView.ViewHolder(itemView) {
