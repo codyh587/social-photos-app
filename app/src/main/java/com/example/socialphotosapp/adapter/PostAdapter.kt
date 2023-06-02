@@ -2,6 +2,7 @@ package com.example.socialphotosapp.adapter
 
 import android.content.Context
 import android.content.Intent
+import android.renderscript.Sampler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -54,6 +55,7 @@ class PostAdapter(private val mContext: Context,
         isLikes(post.getPostId(), holder.likeButton)
         numberOfLikes(post.getPostId(), holder.likes)
         getTotalComments(post.getPostId(), holder.comments)
+        checkSavedStatus(post.getPostId(), holder.saveButton)
 
         holder.likeButton.setOnClickListener {
             if (holder.likeButton.tag == "Like") {
@@ -86,6 +88,23 @@ class PostAdapter(private val mContext: Context,
             intentComment.putExtra("postId", post.getPostId())
             intentComment.putExtra("publisherId", post.getPublisher())
             mContext.startActivity(intentComment)
+        }
+
+        holder.saveButton.setOnClickListener {
+            if (holder.saveButton.tag == "Save") {
+                FirebaseDatabase.getInstance().reference
+                    .child("Saves")
+                    .child(firebaseUser!!.uid)
+                    .child(post.getPostId())
+                    .setValue(true)
+
+            } else {
+                FirebaseDatabase.getInstance().reference
+                    .child("Saves")
+                    .child(firebaseUser!!.uid)
+                    .child(post.getPostId())
+                    .removeValue()
+            }
         }
     }
 
@@ -172,6 +191,26 @@ class PostAdapter(private val mContext: Context,
                     Picasso.get().load(user!!.getImage()).placeholder(R.drawable.profile).into(profileImage)
                     username.text = user.getUsername()
                     publisher.text = user.getFullname()
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {}
+        })
+    }
+
+    private fun checkSavedStatus(postId: String, imageView: ImageView) {
+        val savesRef = FirebaseDatabase.getInstance().reference
+            .child("Saves")
+            .child(firebaseUser!!.uid)
+
+        savesRef.addValueEventListener(object: ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                if (dataSnapshot.child(postId).exists()) {
+                    imageView.setImageResource(R.drawable.save_large_icon)
+                    imageView.tag = "Saved"
+                } else {
+                    imageView.setImageResource(R.drawable.save_unfilled_large_icon)
+                    imageView.tag = "Save"
                 }
             }
 
