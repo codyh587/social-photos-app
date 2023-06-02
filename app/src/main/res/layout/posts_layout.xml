@@ -31,7 +31,7 @@
                 android:id="@+id/user_name_post"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="user name"
+                android:text="username"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:layout_marginLeft="5dp"

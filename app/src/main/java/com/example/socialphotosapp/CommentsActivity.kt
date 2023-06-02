@@ -4,6 +4,10 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.socialphotosapp.adapter.CommentsAdapter
+import com.example.socialphotosapp.model.Comment
 import com.example.socialphotosapp.model.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -19,6 +23,8 @@ class CommentsActivity : AppCompatActivity() {
     private var postId = ""
     private var publisherId = ""
     private var firebaseUser: FirebaseUser? = null
+    private var commentAdapter: CommentsAdapter? = null
+    private var commentList: MutableList<Comment>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,7 +35,18 @@ class CommentsActivity : AppCompatActivity() {
         publisherId = intent.getStringExtra("publisherId")?: ""
 
         firebaseUser = FirebaseAuth.getInstance().currentUser
+
+        var recyclerView: RecyclerView = findViewById(R.id.recycler_view_comments)
+        val linearLayoutManager: LinearLayoutManager = LinearLayoutManager(this)
+        linearLayoutManager.reverseLayout = true
+        recyclerView.layoutManager = linearLayoutManager
+
+        commentList = ArrayList()
+        commentAdapter = CommentsAdapter(this, commentList)
+        recyclerView.adapter = commentAdapter
+
         userInfo()
+        readComments()
 
         post_comment.setOnClickListener(View.OnClickListener {
             if (add_comment!!.text.toString() == "") {
@@ -48,7 +65,6 @@ class CommentsActivity : AppCompatActivity() {
         val commentsMap = HashMap<String, Any>()
         commentsMap["comment"] = add_comment!!.text.toString()
         commentsMap["publisher"] = firebaseUser!!.uid
-
         commentsRef.push().setValue(commentsMap)
         add_comment!!.text.clear()
     }
@@ -60,6 +76,29 @@ class CommentsActivity : AppCompatActivity() {
                 if (dataSnapshot.exists()) {
                     val user = dataSnapshot.getValue<User>(User::class.java)
                     Picasso.get().load(user!!.getImage()).placeholder(R.drawable.profile).into(profile_image_comment)
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {}
+        })
+    }
+
+    private fun readComments() {
+        val commentsRef = FirebaseDatabase.getInstance().reference
+            .child("Comments")
+            .child(postId)
+
+        commentsRef.addValueEventListener(object: ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    commentList!!.clear()
+
+                    for (snapshot in dataSnapshot.children) {
+                        val comment = snapshot.getValue(Comment::class.java)
+                        commentList!!.add(comment!!)
+                    }
+
+                    commentAdapter!!.notifyDataSetChanged()
                 }
             }
 
