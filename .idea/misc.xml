@@ -22,7 +22,7 @@
         <entry key="..\:/Users/evers/AndroidStudioProjects/SocialPhotosApp/app/src/main/res/layout/fragment_notifications.xml" value="0.1" />
         <entry key="..\:/Users/evers/AndroidStudioProjects/SocialPhotosApp/app/src/main/res/layout/fragment_profile.xml" value="0.25" />
         <entry key="..\:/Users/evers/AndroidStudioProjects/SocialPhotosApp/app/src/main/res/layout/fragment_search.xml" value="0.16" />
-        <entry key="..\:/Users/evers/AndroidStudioProjects/SocialPhotosApp/app/src/main/res/layout/images_item_layout.xml" value="0.2" />
+        <entry key="..\:/Users/evers/AndroidStudioProjects/SocialPhotosApp/app/src/main/res/layout/images_item_layout.xml" value="0.33" />
         <entry key="..\:/Users/evers/AndroidStudioProjects/SocialPhotosApp/app/src/main/res/layout/posts_layout.xml" value="0.75" />
         <entry key="..\:/Users/evers/AndroidStudioProjects/SocialPhotosApp/app/src/main/res/layout/user_item_layout.xml" value="0.1" />
         <entry key="..\:/Users/evers/AndroidStudioProjects/SocialPhotosApp/app/src/main/res/menu/bottom_nav_menu.xml" value="0.2" />
@@ -34,5 +34,12 @@
   </component>
   <component name="ProjectType">
     <option name="id" value="Android" />
+  </component>
+  <component name="VisualizationToolProject">
+    <option name="state">
+      <ProjectState>
+        <option name="scale" value="0.33" />
+      </ProjectState>
+    </option>
   </component>
 </project>

@@ -238,12 +238,14 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_view_upload_pic"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_view_saved_pic"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_margin="10dp"
                 android:visibility="gone" />
 
         </LinearLayout>
