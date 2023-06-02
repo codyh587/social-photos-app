@@ -57,14 +57,14 @@ class PostAdapter(private val mContext: Context,
         init {
             profileImage = itemView.findViewById(R.id.user_profile_image_post)
             postImage = itemView.findViewById(R.id.post_image_home)
-            likeButton = itemView.findViewById(R.id.user_profile_image_post)
-            commentButton = itemView.findViewById(R.id.user_profile_image_post)
-            saveButton = itemView.findViewById(R.id.user_profile_image_post)
-            username = itemView.findViewById(R.id.user_profile_image_post)
-            likes = itemView.findViewById(R.id.user_profile_image_post)
-            publisher = itemView.findViewById(R.id.user_profile_image_post)
-            description = itemView.findViewById(R.id.user_profile_image_post)
-            comments = itemView.findViewById(R.id.user_profile_image_post)
+            likeButton = itemView.findViewById(R.id.post_image_like_btn)
+            commentButton = itemView.findViewById(R.id.post_image_comment_btn)
+            saveButton = itemView.findViewById(R.id.post_save_comment_btn)
+            username = itemView.findViewById(R.id.user_name_post)
+            likes = itemView.findViewById(R.id.likes)
+            publisher = itemView.findViewById(R.id.publisher)
+            description = itemView.findViewById(R.id.description)
+            comments = itemView.findViewById(R.id.comments)
         }
     }
 

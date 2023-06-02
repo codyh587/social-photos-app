@@ -104,6 +104,8 @@ class HomeFragment : Fragment() {
                         if (post!!.getPublisher() == id) {
                             postList!!.add(post)
                         }
+
+                        postAdapter!!.notifyDataSetChanged()
                     }
                 }
             }
