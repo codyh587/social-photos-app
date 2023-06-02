@@ -7,8 +7,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.socialphotosapp.AccountSettingsActivity
 import com.example.socialphotosapp.R
+import com.example.socialphotosapp.adapter.MyImagesAdapter
+import com.example.socialphotosapp.model.Post
 import com.example.socialphotosapp.model.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -18,6 +23,8 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_profile.view.*
+import java.util.*
+import kotlin.collections.ArrayList
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -33,6 +40,9 @@ class ProfileFragment : Fragment() {
 
     private lateinit var profileId: String
     private lateinit var firebaseUser: FirebaseUser
+
+    var postList: List<Post>? = null
+    var myImagesAdapter: MyImagesAdapter? = null
 
     // TODO: Rename and change types of parameters
     private var param1: String? = null
@@ -64,6 +74,15 @@ class ProfileFragment : Fragment() {
         } else if (profileId != firebaseUser.uid) {
             checkFollowAndFollowingButtonStatus()
         }
+
+        var recyclerViewUploadImages: RecyclerView = view.findViewById(R.id.recycler_view_upload_pic)
+        recyclerViewUploadImages.setHasFixedSize(true)
+        val linearLayoutManager: LinearLayoutManager = GridLayoutManager(context, 3)
+        recyclerViewUploadImages.layoutManager = linearLayoutManager
+
+        postList = ArrayList()
+        myImagesAdapter = context?.let { MyImagesAdapter(it, postList as ArrayList<Post>) }
+        recyclerViewUploadImages.adapter = myImagesAdapter
 
         view.edit_account_settings_btn.setOnClickListener {
             val getButtonText = view.edit_account_settings_btn.text.toString()
@@ -108,6 +127,7 @@ class ProfileFragment : Fragment() {
         getFollowers()
         getFollowing()
         userInfo()
+        myPhotos()
 
         return view
     }
@@ -159,6 +179,29 @@ class ProfileFragment : Fragment() {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 if (dataSnapshot.exists()) {
                     view?.total_following?.text = dataSnapshot.childrenCount.toString()
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {}
+        })
+    }
+
+    private fun myPhotos() {
+        val postsRef = FirebaseDatabase.getInstance().reference.child("Posts")
+
+        postsRef.addValueEventListener(object: ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    (postList as ArrayList<Post>).clear()
+
+                    for (snapshot in dataSnapshot.children) {
+                        val post = snapshot.getValue(Post::class.java)!!
+                        if (post.getPublisher().equals(profileId)) {
+                            (postList as ArrayList<Post>).add(post)
+                        }
+                        Collections.reverse(postList)
+                        myImagesAdapter!!.notifyDataSetChanged()
+                    }
                 }
             }
 

@@ -40,6 +40,7 @@ class CommentsActivity : AppCompatActivity() {
         var recyclerView: RecyclerView = findViewById(R.id.recycler_view_comments)
         val linearLayoutManager: LinearLayoutManager = LinearLayoutManager(this)
         linearLayoutManager.reverseLayout = true
+        linearLayoutManager.stackFromEnd = true
         recyclerView.layoutManager = linearLayoutManager
 
         commentList = ArrayList()
