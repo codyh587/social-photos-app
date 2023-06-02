@@ -9,6 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.NonNull
 import androidx.recyclerview.widget.RecyclerView
+import com.example.socialphotosapp.CommentsActivity
 import com.example.socialphotosapp.MainActivity
 import com.example.socialphotosapp.R
 import com.example.socialphotosapp.model.Post
@@ -70,6 +71,13 @@ class PostAdapter(private val mContext: Context,
                 val intent = Intent(mContext, MainActivity::class.java)
                 mContext.startActivity(intent)
             }
+        }
+
+        holder.commentButton.setOnClickListener {
+            val intentComment = Intent(mContext, CommentsActivity::class.java)
+            intentComment.putExtra("postId", post.getPostId())
+            intentComment.putExtra("publisherId", post.getPublisher())
+            mContext.startActivity(intentComment)
         }
     }
 
