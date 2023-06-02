@@ -16,6 +16,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.activity_add_post.*
 import kotlinx.android.synthetic.main.activity_comments.*
 
 class CommentsActivity : AppCompatActivity() {
@@ -47,6 +48,7 @@ class CommentsActivity : AppCompatActivity() {
 
         userInfo()
         readComments()
+        getPostImage()
 
         post_comment.setOnClickListener(View.OnClickListener {
             if (add_comment!!.text.toString() == "") {
@@ -76,6 +78,24 @@ class CommentsActivity : AppCompatActivity() {
                 if (dataSnapshot.exists()) {
                     val user = dataSnapshot.getValue<User>(User::class.java)
                     Picasso.get().load(user!!.getImage()).placeholder(R.drawable.profile).into(profile_image_comment)
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {}
+        })
+    }
+
+    private fun getPostImage() {
+        val postRef = FirebaseDatabase.getInstance().reference
+            .child("Posts")
+            .child(postId!!)
+            .child("postimage")
+
+        postRef.addValueEventListener(object: ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    val image = dataSnapshot.value.toString()
+                    Picasso.get().load(image).placeholder(R.drawable.profile).into(post_image_comment)
                 }
             }
 
