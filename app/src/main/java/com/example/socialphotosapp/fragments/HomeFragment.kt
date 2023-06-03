@@ -9,12 +9,15 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.socialphotosapp.R
 import com.example.socialphotosapp.adapter.PostAdapter
+import com.example.socialphotosapp.adapter.StoryAdapter
 import com.example.socialphotosapp.model.Post
+import com.example.socialphotosapp.model.Story
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.ktx.Firebase
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -31,6 +34,9 @@ class HomeFragment : Fragment() {
     private var postAdapter: PostAdapter? = null
     private var postList: MutableList<Post>? = null
     private var followingList: MutableList<Post>? = null
+
+    private var storyAdapter: StoryAdapter? = null
+    private var storyList: MutableList<Story>? = null
 
     // TODO: Rename and change types of parameters
     private var param1: String? = null
@@ -51,16 +57,33 @@ class HomeFragment : Fragment() {
         // Inflate the layout for this fragment
         val view =  inflater.inflate(R.layout.fragment_home, container, false)
 
+
+        // Posts recycler view
         var recyclerView: RecyclerView? = null
         recyclerView = view.findViewById(R.id.recycler_view_home)
         val linearLayoutManager = LinearLayoutManager(context)
         linearLayoutManager.reverseLayout = true
         linearLayoutManager.stackFromEnd = true
         recyclerView.layoutManager = linearLayoutManager
+        //
+
+        // Stories recycler view
+        var recyclerViewStory: RecyclerView? = null
+        recyclerViewStory = view.findViewById(R.id.recycler_view_story)
+        val linearLayoutManager2 = LinearLayoutManager(context)
+        linearLayoutManager2.reverseLayout = true
+        linearLayoutManager2.stackFromEnd = true
+        recyclerViewStory.layoutManager = linearLayoutManager2
+        //
+
 
         postList = ArrayList()
         postAdapter = context?.let { PostAdapter(it, postList as ArrayList<Post>) }
         recyclerView.adapter = postAdapter
+
+        storyList = ArrayList()
+        storyAdapter = context?.let { StoryAdapter(it, storyList as ArrayList<Story>) }
+        recyclerViewStory.adapter = storyAdapter
 
         checkFollowings()
 
@@ -84,6 +107,7 @@ class HomeFragment : Fragment() {
                     }
 
                     retrievePosts()
+                    retrieveStories()
                 }
             }
 
@@ -108,6 +132,37 @@ class HomeFragment : Fragment() {
                         postAdapter!!.notifyDataSetChanged()
                     }
                 }
+            }
+
+            override fun onCancelled(error: DatabaseError) {}
+        })
+    }
+
+    private fun retrieveStories() {
+        val storyRef = FirebaseDatabase.getInstance().reference.child("Story")
+
+        storyRef.addValueEventListener(object: ValueEventListener{
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val timeCurrent = System.currentTimeMillis()
+
+                (storyList as ArrayList<Story>).clear()
+                (storyList as ArrayList<Story>).add(Story("", 0, 0, "", FirebaseAuth.getInstance().currentUser!!.uid))
+
+                for (id in followingList!!) {
+                    var countStory = 0
+                    var story: Story? = null
+
+                    for (snapshot in dataSnapshot.child(id.toString()).children) {
+                        story = snapshot.getValue(Story::class.java)
+                        if (timeCurrent > story!!.getTimeStart() && timeCurrent < story!!.getTimeEnd()) {
+                            countStory++
+                        }
+                    }
+                    if (countStory > 0) {
+                        (storyList as ArrayList<Story>).add(story!!)
+                    }
+                }
+                storyAdapter!!.notifyDataSetChanged()
             }
 
             override fun onCancelled(error: DatabaseError) {}
