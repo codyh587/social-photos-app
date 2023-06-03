@@ -69,7 +69,7 @@ class NotificationAdapter(private val mContext: Context,
 
             } else {
                 val editor = mContext.getSharedPreferences("PREFS", Context.MODE_PRIVATE).edit()
-                editor.putString("profileId", notification.getPostId())
+                editor.putString("profileId", notification.getUserId())
                 editor.apply()
                 (mContext as FragmentActivity).getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragment_container, ProfileFragment()).commit()
