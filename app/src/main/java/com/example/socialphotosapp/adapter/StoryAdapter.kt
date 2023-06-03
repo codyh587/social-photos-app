@@ -1,6 +1,7 @@
 package com.example.socialphotosapp.adapter
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,9 +9,18 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.NonNull
 import androidx.recyclerview.widget.RecyclerView
+import com.example.socialphotosapp.AddStoryActivity
+import com.example.socialphotosapp.MainActivity
 import com.example.socialphotosapp.R
 import com.example.socialphotosapp.model.Story
+import com.example.socialphotosapp.model.User
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
+import kotlinx.android.synthetic.main.fragment_profile.view.*
 
 class StoryAdapter(private val mContext: Context,
                    private val mStory: List<Story>): RecyclerView.Adapter<StoryAdapter.ViewHolder>() {
@@ -32,7 +42,13 @@ class StoryAdapter(private val mContext: Context,
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val story = mStory[position]
 
+        userInfo(holder, story.getUserId(), position)
 
+        holder.itemView.setOnClickListener {
+            val intent = Intent(mContext, AddStoryActivity::class.java)
+            intent.putExtra("userid", story.getUserId())
+            mContext.startActivity(intent)
+        }
     }
 
     inner class ViewHolder(@NonNull itemView: View): RecyclerView.ViewHolder(itemView) {
@@ -63,5 +79,24 @@ class StoryAdapter(private val mContext: Context,
             return 0
         }
         return 1
+    }
+
+    private fun userInfo(viewHolder: ViewHolder, userId: String, position: Int) {
+        val usersRef = FirebaseDatabase.getInstance().reference.child("Users").child(userId)
+        usersRef.addValueEventListener(object: ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    val user = dataSnapshot.getValue<User>(User::class.java)
+                    Picasso.get().load(user!!.getImage()).placeholder(R.drawable.profile).into(viewHolder.story_image)
+
+                    if (position != 0) {
+                        Picasso.get().load(user.getImage()).placeholder(R.drawable.profile).into(viewHolder.story_image_seen)
+                        viewHolder.story_username!!.text = user.getUsername()
+                    }
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {}
+        })
     }
 }

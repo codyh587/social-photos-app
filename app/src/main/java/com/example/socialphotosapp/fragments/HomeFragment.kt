@@ -33,7 +33,7 @@ class HomeFragment : Fragment() {
 
     private var postAdapter: PostAdapter? = null
     private var postList: MutableList<Post>? = null
-    private var followingList: MutableList<Post>? = null
+    private var followingList: MutableList<String>? = null
 
     private var storyAdapter: StoryAdapter? = null
     private var storyList: MutableList<Story>? = null
@@ -152,8 +152,9 @@ class HomeFragment : Fragment() {
                     var countStory = 0
                     var story: Story? = null
 
-                    for (snapshot in dataSnapshot.child(id.toString()).children) {
+                    for (snapshot in dataSnapshot.child(id).children) {
                         story = snapshot.getValue(Story::class.java)
+
                         if (timeCurrent > story!!.getTimeStart() && timeCurrent < story!!.getTimeEnd()) {
                             countStory++
                         }
