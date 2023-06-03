@@ -152,6 +152,8 @@ class ProfileFragment : Fragment() {
                             .child("Followers").child(it1.toString())
                             .setValue(true)
                     }
+
+                    addNotification()
                 }
 
                 "Following" -> {
@@ -260,7 +262,7 @@ class ProfileFragment : Fragment() {
     }
 
     private fun userInfo() {
-        val usersRef = FirebaseDatabase.getInstance().getReference().child("Users").child(profileId)
+        val usersRef = FirebaseDatabase.getInstance().reference.child("Users").child(profileId)
         usersRef.addValueEventListener(object: ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 if (dataSnapshot.exists()) {
@@ -365,6 +367,20 @@ class ProfileFragment : Fragment() {
 
             override fun onCancelled(error: DatabaseError) {}
         })
+    }
+
+    private fun addNotification() {
+        val notifRef = FirebaseDatabase.getInstance().reference
+            .child("Notifications")
+            .child(profileId)
+
+        val notifMap = HashMap<String, Any>()
+        notifMap["userid"] = firebaseUser!!.uid
+        notifMap["text"] = "started following you"
+        notifMap["postid"] = ""
+        notifMap["ispost"] = false
+
+        notifRef.push().setValue(notifMap)
     }
 
     companion object {
