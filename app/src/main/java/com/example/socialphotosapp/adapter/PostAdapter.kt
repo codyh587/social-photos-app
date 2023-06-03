@@ -2,7 +2,6 @@ package com.example.socialphotosapp.adapter
 
 import android.content.Context
 import android.content.Intent
-import android.renderscript.Sampler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.socialphotosapp.CommentsActivity
 import com.example.socialphotosapp.MainActivity
 import com.example.socialphotosapp.R
+import com.example.socialphotosapp.ShowUsersActivity
 import com.example.socialphotosapp.model.Post
 import com.example.socialphotosapp.model.User
 import com.google.firebase.auth.FirebaseAuth
@@ -74,6 +74,13 @@ class PostAdapter(private val mContext: Context,
                 val intent = Intent(mContext, MainActivity::class.java)
                 mContext.startActivity(intent)
             }
+        }
+
+        holder.likes.setOnClickListener {
+            val intent = Intent(mContext, ShowUsersActivity::class.java)
+            intent.putExtra("id", post.getPostId())
+            intent.putExtra("title", "likes")
+            mContext.startActivity(intent)
         }
 
         holder.commentButton.setOnClickListener {

@@ -108,7 +108,7 @@ class SearchFragment : Fragment() {
     }
 
     private fun retrieveUsers() {
-        val usersRef = FirebaseDatabase.getInstance().getReference().child("Users")
+        val usersRef = FirebaseDatabase.getInstance().reference.child("Users")
         usersRef.addValueEventListener(object: ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 if (view?.search_edit_text?.text.toString() == "") {

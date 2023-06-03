@@ -3,7 +3,6 @@ package com.example.socialphotosapp.fragments
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.renderscript.Sampler
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.socialphotosapp.AccountSettingsActivity
 import com.example.socialphotosapp.R
+import com.example.socialphotosapp.ShowUsersActivity
 import com.example.socialphotosapp.adapter.MyImagesAdapter
 import com.example.socialphotosapp.model.Post
 import com.example.socialphotosapp.model.User
@@ -116,6 +116,20 @@ class ProfileFragment : Fragment() {
         savedImgesBtn.setOnClickListener {
             recyclerViewSavedImages.visibility = View.VISIBLE
             recyclerViewUploadImages.visibility = View.GONE
+        }
+
+        view.total_followers.setOnClickListener {
+            val intent = Intent(context, ShowUsersActivity::class.java)
+            intent.putExtra("id", profileId)
+            intent.putExtra("title", "followers")
+            startActivity(intent)
+        }
+
+        view.total_following.setOnClickListener {
+            val intent = Intent(context, ShowUsersActivity::class.java)
+            intent.putExtra("id", profileId)
+            intent.putExtra("title", "following")
+            startActivity(intent)
         }
 
         view.edit_account_settings_btn.setOnClickListener {
