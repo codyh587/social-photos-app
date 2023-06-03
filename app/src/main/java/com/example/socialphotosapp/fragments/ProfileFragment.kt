@@ -3,10 +3,12 @@ package com.example.socialphotosapp.fragments
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.renderscript.Sampler
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -45,6 +47,10 @@ class ProfileFragment : Fragment() {
     var postList: List<Post>? = null
     var myImagesAdapter: MyImagesAdapter? = null
 
+    var postListSaved: List<Post>? = null
+    var myImagesAdapterSavedImg: MyImagesAdapter? = null
+    var mySavedImg: List<String>? = null
+
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -76,6 +82,8 @@ class ProfileFragment : Fragment() {
             checkFollowAndFollowingButtonStatus()
         }
 
+
+        //  My Posts recycler view
         var recyclerViewUploadImages: RecyclerView = view.findViewById(R.id.recycler_view_upload_pic)
         recyclerViewUploadImages.setHasFixedSize(true)
         val linearLayoutManager: LinearLayoutManager = GridLayoutManager(context, 3)
@@ -84,6 +92,31 @@ class ProfileFragment : Fragment() {
         postList = ArrayList()
         myImagesAdapter = context?.let { MyImagesAdapter(it, postList as ArrayList<Post>) }
         recyclerViewUploadImages.adapter = myImagesAdapter
+        //
+
+        // Saved Posts recycler view
+        var recyclerViewSavedImages: RecyclerView = view.findViewById(R.id.recycler_view_saved_pic)
+        recyclerViewSavedImages.setHasFixedSize(true)
+        val linearLayoutManager2: LinearLayoutManager = GridLayoutManager(context, 3)
+        recyclerViewSavedImages.layoutManager = linearLayoutManager2
+
+        postListSaved = ArrayList()
+        myImagesAdapterSavedImg = context?.let { MyImagesAdapter(it, postListSaved as ArrayList<Post>) }
+        recyclerViewSavedImages.adapter = myImagesAdapterSavedImg
+        //
+
+
+        var uploadedImgesBtn: ImageButton = view.findViewById(R.id.images_grid_view_btn)
+        uploadedImgesBtn.setOnClickListener {
+            recyclerViewSavedImages.visibility = View.GONE
+            recyclerViewUploadImages.visibility = View.VISIBLE
+        }
+
+        var savedImgesBtn: ImageButton = view.findViewById(R.id.images_save_btn)
+        savedImgesBtn.setOnClickListener {
+            recyclerViewSavedImages.visibility = View.VISIBLE
+            recyclerViewUploadImages.visibility = View.GONE
+        }
 
         view.edit_account_settings_btn.setOnClickListener {
             val getButtonText = view.edit_account_settings_btn.text.toString()
@@ -130,6 +163,7 @@ class ProfileFragment : Fragment() {
         userInfo()
         myPhotos()
         getTotalNumberOfPosts()
+        mySaves()
 
         return view
     }
@@ -266,6 +300,52 @@ class ProfileFragment : Fragment() {
                         }
                     }
                     total_posts.text = postCounter.toString()
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {}
+        })
+    }
+
+    private fun mySaves() {
+        mySavedImg = ArrayList()
+
+        val savedRef = FirebaseDatabase.getInstance().reference
+            .child("Saves")
+            .child(firebaseUser.uid)
+
+        savedRef.addValueEventListener(object: ValueEventListener{
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    for (snapshot in dataSnapshot.children) {
+                        (mySavedImg as ArrayList<String>).add(snapshot.key!!)
+                    }
+                    readSavedImgData()
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {}
+        })
+    }
+
+    private fun readSavedImgData() {
+        val postsRef = FirebaseDatabase.getInstance().reference.child("Posts")
+
+        postsRef.addValueEventListener(object: ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    (postListSaved as ArrayList<Post>).clear()
+
+                    for (snapshot in dataSnapshot.children) {
+                        val post = snapshot.getValue(Post::class.java)
+                        for (key in mySavedImg!!) {
+                            if (post!!.getPostId() == key) {
+                                (postListSaved as ArrayList<Post>).add(post)
+                            }
+                        }
+                    }
+
+                    myImagesAdapterSavedImg!!.notifyDataSetChanged()
                 }
             }
 
