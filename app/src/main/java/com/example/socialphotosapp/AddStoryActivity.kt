@@ -80,9 +80,11 @@ class AddStoryActivity : AppCompatActivity() {
                             val downloadUrl = task.result
                             myUrl = downloadUrl.toString()
 
-                            val ref = FirebaseDatabase.getInstance().reference.child("Story")
-                            val storyId = ref.push().key.toString()
+                            val ref = FirebaseDatabase.getInstance().reference
+                                .child("Story")
+                                .child(FirebaseAuth.getInstance().currentUser!!.uid)
 
+                            val storyId = ref.push().key.toString()
                             val timeEnd = System.currentTimeMillis() + 86400000 // one day
 
                             val storyMap = HashMap<String, Any>()
