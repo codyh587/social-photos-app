@@ -21,11 +21,11 @@
                 android:layout_height="wrap_content">
 
                 <ImageView
-                    android:paddingTop="5dp"
-                    android:layout_width="100dp"
-                    android:layout_height="50dp"
+                    android:paddingTop="10dp"
+                    android:layout_width="120dp"
+                    android:layout_height="70dp"
                     android:layout_alignParentLeft="true"
-                    android:src="@drawable/instagram" />
+                    android:src="@drawable/interestgram" />
 
                 <ImageView
                     android:layout_width="wrap_content"

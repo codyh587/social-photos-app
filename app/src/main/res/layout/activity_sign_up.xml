@@ -9,9 +9,9 @@
 
     <ImageView
         android:id="@+id/logo"
-        android:layout_width="160dp"
-        android:layout_height="90dp"
-        android:src="@drawable/instagram"
+        android:layout_width="200dp"
+        android:layout_height="100dp"
+        android:src="@drawable/interestgram"
         app:tint="@android:color/white"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="115dp"/>
