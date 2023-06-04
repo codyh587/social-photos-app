@@ -93,7 +93,8 @@
             android:text="0"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:layout_marginStart="10dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginBottom="1dp"
             android:textColor="@android:color/white"
             android:layout_gravity="center" />
 
@@ -102,7 +103,7 @@
     <TextView
         android:id="@+id/story_delete"
         android:layout_width="80dp"
-        android:layout_height="35dp"
+        android:layout_height="33dp"
         android:text="Delete"
         android:textSize="16sp"
         android:textStyle="bold"

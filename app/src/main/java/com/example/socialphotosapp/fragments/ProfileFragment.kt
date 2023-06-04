@@ -174,6 +174,10 @@ class ProfileFragment : Fragment() {
             }
         }
 
+        view.options_view.setOnClickListener {
+            startActivity(Intent(context, AccountSettingsActivity::class.java))
+        }
+
         getFollowers()
         getFollowing()
         userInfo()

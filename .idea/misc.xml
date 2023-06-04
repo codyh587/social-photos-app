@@ -13,18 +13,18 @@
         <entry key="..\:/Users/evers/AndroidStudioProjects/SocialPhotosApp/app/src/main/res/drawable/inputs_background.xml" value="0.1235" />
         <entry key="..\:/Users/evers/AndroidStudioProjects/SocialPhotosApp/app/src/main/res/layout/activity_account_settings.xml" value="0.33" />
         <entry key="..\:/Users/evers/AndroidStudioProjects/SocialPhotosApp/app/src/main/res/layout/activity_add_post.xml" value="0.25" />
-        <entry key="..\:/Users/evers/AndroidStudioProjects/SocialPhotosApp/app/src/main/res/layout/activity_add_story.xml" value="0.2" />
+        <entry key="..\:/Users/evers/AndroidStudioProjects/SocialPhotosApp/app/src/main/res/layout/activity_add_story.xml" value="0.25" />
         <entry key="..\:/Users/evers/AndroidStudioProjects/SocialPhotosApp/app/src/main/res/layout/activity_comments.xml" value="0.33" />
         <entry key="..\:/Users/evers/AndroidStudioProjects/SocialPhotosApp/app/src/main/res/layout/activity_main.xml" value="0.16" />
         <entry key="..\:/Users/evers/AndroidStudioProjects/SocialPhotosApp/app/src/main/res/layout/activity_show_users.xml" value="0.2" />
         <entry key="..\:/Users/evers/AndroidStudioProjects/SocialPhotosApp/app/src/main/res/layout/activity_sign_in.xml" value="0.1" />
         <entry key="..\:/Users/evers/AndroidStudioProjects/SocialPhotosApp/app/src/main/res/layout/activity_sign_up.xml" value="0.2" />
-        <entry key="..\:/Users/evers/AndroidStudioProjects/SocialPhotosApp/app/src/main/res/layout/activity_story.xml" value="0.25" />
+        <entry key="..\:/Users/evers/AndroidStudioProjects/SocialPhotosApp/app/src/main/res/layout/activity_story.xml" value="0.22" />
         <entry key="..\:/Users/evers/AndroidStudioProjects/SocialPhotosApp/app/src/main/res/layout/add_story_item.xml" value="0.1" />
         <entry key="..\:/Users/evers/AndroidStudioProjects/SocialPhotosApp/app/src/main/res/layout/comments_item_layout.xml" value="0.2" />
         <entry key="..\:/Users/evers/AndroidStudioProjects/SocialPhotosApp/app/src/main/res/layout/fragment_home.xml" value="0.25" />
         <entry key="..\:/Users/evers/AndroidStudioProjects/SocialPhotosApp/app/src/main/res/layout/fragment_notifications.xml" value="0.1" />
-        <entry key="..\:/Users/evers/AndroidStudioProjects/SocialPhotosApp/app/src/main/res/layout/fragment_profile.xml" value="0.25" />
+        <entry key="..\:/Users/evers/AndroidStudioProjects/SocialPhotosApp/app/src/main/res/layout/fragment_profile.xml" value="0.33" />
         <entry key="..\:/Users/evers/AndroidStudioProjects/SocialPhotosApp/app/src/main/res/layout/fragment_search.xml" value="0.25" />
         <entry key="..\:/Users/evers/AndroidStudioProjects/SocialPhotosApp/app/src/main/res/layout/images_item_layout.xml" value="0.33" />
         <entry key="..\:/Users/evers/AndroidStudioProjects/SocialPhotosApp/app/src/main/res/layout/notifications_item_layout.xml" value="0.2" />
@@ -40,5 +40,12 @@
   </component>
   <component name="ProjectType">
     <option name="id" value="Android" />
+  </component>
+  <component name="VisualizationToolProject">
+    <option name="state">
+      <ProjectState>
+        <option name="scale" value="0.33" />
+      </ProjectState>
+    </option>
   </component>
 </project>

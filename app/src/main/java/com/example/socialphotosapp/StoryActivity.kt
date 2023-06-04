@@ -179,6 +179,7 @@ class StoryActivity : AppCompatActivity(), StoriesProgressView.StoriesListener {
     }
 
     override fun onPrev() {
+        if (counter - 1 < 0) { return }
         Picasso.get().load(imagesList!![--counter]).placeholder(R.drawable.profile).into(image_story)
         seenNumber(storyIdsList!!.get(counter))
     }
