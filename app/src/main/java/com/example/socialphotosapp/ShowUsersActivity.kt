@@ -56,12 +56,29 @@ class ShowUsersActivity : AppCompatActivity() {
     }
 
     private fun getViews() {
+        val ref = FirebaseDatabase.getInstance().reference
+            .child("Story")
+            .child(id)
+            .child(intent.getStringExtra("storyid")?: "none")
+            .child("views")
 
+        ref.addValueEventListener(object: ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                (idList as ArrayList<String>).clear()
+                for (snapshot in dataSnapshot.children) {
+                    (idList as ArrayList<String>).add(snapshot.key!!)
+                }
+                showUsers()
+            }
+
+            override fun onCancelled(error: DatabaseError) {}
+        })
     }
 
     private fun getFollowers() {
         val followersRef = FirebaseDatabase.getInstance().reference
-            .child("Follow").child(id)
+            .child("Follow")
+            .child(id)
             .child("Followers")
 
         followersRef.addValueEventListener(object: ValueEventListener {
@@ -79,7 +96,8 @@ class ShowUsersActivity : AppCompatActivity() {
 
     private fun getFollowing() {
         val followersRef = FirebaseDatabase.getInstance().reference
-            .child("Follow").child(id)
+            .child("Follow")
+            .child(id)
             .child("Following")
 
         followersRef.addValueEventListener(object: ValueEventListener {
