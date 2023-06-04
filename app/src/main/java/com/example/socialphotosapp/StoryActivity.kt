@@ -151,7 +151,6 @@ class StoryActivity : AppCompatActivity(), StoriesProgressView.StoriesListener {
     private fun addViewToStory(storyId: String) {
         FirebaseDatabase.getInstance().reference
             .child("Story")
-            .child(currentUserId)
             .child(userId)
             .child(storyId)
             .child("views")
@@ -162,7 +161,6 @@ class StoryActivity : AppCompatActivity(), StoriesProgressView.StoriesListener {
     private fun seenNumber(storyId: String) {
         val ref = FirebaseDatabase.getInstance().reference
             .child("Story")
-            .child(currentUserId)
             .child(userId)
             .child(storyId)
             .child("views")
