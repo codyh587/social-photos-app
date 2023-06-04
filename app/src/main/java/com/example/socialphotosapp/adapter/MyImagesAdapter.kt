@@ -40,7 +40,7 @@ class MyImagesAdapter(private val mContext: Context,
             val editor = mContext.getSharedPreferences("PREFS", Context.MODE_PRIVATE).edit()
             editor.putString("postId", post.getPostId())
             editor.apply()
-            (mContext as FragmentActivity).getSupportFragmentManager().beginTransaction()
+            (mContext as FragmentActivity).supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, PostDetailsFragment()).commit()
         }
     }

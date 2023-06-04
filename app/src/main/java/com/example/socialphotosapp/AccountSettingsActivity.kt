@@ -4,10 +4,9 @@ import android.app.Activity
 import android.app.ProgressDialog
 import android.content.Intent
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.TextUtils
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.example.socialphotosapp.model.User
 import com.google.android.gms.tasks.Continuation
 import com.google.android.gms.tasks.OnCompleteListener
@@ -25,6 +24,7 @@ import com.google.firebase.storage.UploadTask
 import com.squareup.picasso.Picasso
 import com.theartofdev.edmodo.cropper.CropImage
 import kotlinx.android.synthetic.main.activity_account_settings.*
+import java.util.*
 
 class AccountSettingsActivity : AppCompatActivity() {
 
@@ -94,9 +94,11 @@ class AccountSettingsActivity : AppCompatActivity() {
                 val usersRef = FirebaseDatabase.getInstance().reference.child("Users")
 
                 val userMap = HashMap<String, Any>()
-                userMap["fullname"] = full_name_profile_frag.text.toString().toLowerCase()
-                userMap["username"] = username_profile_frag.text.toString().toLowerCase()
-                userMap["bio"] = bio_profile_frag.text.toString().toLowerCase()
+                userMap["fullname"] = full_name_profile_frag.text.toString()
+                    .lowercase(Locale.getDefault())
+                userMap["username"] = username_profile_frag.text.toString()
+                    .lowercase(Locale.getDefault())
+                userMap["bio"] = bio_profile_frag.text.toString().lowercase(Locale.getDefault())
 
                 usersRef.child(firebaseUser.uid).updateChildren(userMap)
 
@@ -139,7 +141,7 @@ class AccountSettingsActivity : AppCompatActivity() {
                 progressDialog.setMessage("Please wait, updating info...")
                 progressDialog.show()
 
-                val fileRef = storageProfilePicRef!!.child(firebaseUser!!.uid + ".jpg")
+                val fileRef = storageProfilePicRef!!.child(firebaseUser.uid + ".jpg")
 
                 var uploadTask: StorageTask<*>
                 uploadTask = fileRef.putFile(imageUri!!)
@@ -162,9 +164,12 @@ class AccountSettingsActivity : AppCompatActivity() {
                         val ref = FirebaseDatabase.getInstance().reference.child("Users")
 
                         val userMap = HashMap<String, Any>()
-                        userMap["fullname"] = full_name_profile_frag.text.toString().toLowerCase()
-                        userMap["username"] = username_profile_frag.text.toString().toLowerCase()
-                        userMap["bio"] = bio_profile_frag.text.toString().toLowerCase()
+                        userMap["fullname"] = full_name_profile_frag.text.toString()
+                            .lowercase(Locale.getDefault())
+                        userMap["username"] = username_profile_frag.text.toString()
+                            .lowercase(Locale.getDefault())
+                        userMap["bio"] = bio_profile_frag.text.toString()
+                            .lowercase(Locale.getDefault())
                         userMap["image"] = myUrl
 
                         ref.child(firebaseUser.uid).updateChildren(userMap)

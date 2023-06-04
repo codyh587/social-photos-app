@@ -2,13 +2,13 @@ package com.example.socialphotosapp
 
 import android.content.Intent
 import android.os.Bundle
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.socialphotosapp.fragments.HomeFragment
 import com.example.socialphotosapp.fragments.NotificationsFragment
 import com.example.socialphotosapp.fragments.ProfileFragment
 import com.example.socialphotosapp.fragments.SearchFragment
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
 

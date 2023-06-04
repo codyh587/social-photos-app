@@ -4,9 +4,9 @@ import android.app.Activity
 import android.app.ProgressDialog
 import android.content.Intent
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.tasks.Continuation
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
@@ -17,8 +17,8 @@ import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.StorageTask
 import com.google.firebase.storage.UploadTask
 import com.theartofdev.edmodo.cropper.CropImage
-import kotlinx.android.synthetic.main.activity_account_settings.*
 import kotlinx.android.synthetic.main.activity_add_post.*
+import java.util.*
 
 class AddPostActivity : AppCompatActivity() {
 
@@ -92,7 +92,8 @@ class AddPostActivity : AppCompatActivity() {
 
                         val postMap = HashMap<String, Any>()
                         postMap["postid"] = postId!!
-                        postMap["description"] = description_post.text.toString().toLowerCase()
+                        postMap["description"] = description_post.text.toString()
+                            .lowercase(Locale.getDefault())
                         postMap["publisher"] = FirebaseAuth.getInstance().currentUser!!.uid
                         postMap["postimage"] = myUrl
 

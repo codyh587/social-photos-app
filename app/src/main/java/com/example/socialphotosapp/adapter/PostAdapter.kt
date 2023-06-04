@@ -26,7 +26,6 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
-import kotlinx.android.synthetic.main.activity_comments.*
 
 class PostAdapter(private val mContext: Context,
                   private val mPost: List<Post>): RecyclerView.Adapter<PostAdapter.ViewHolder>() {
@@ -65,7 +64,7 @@ class PostAdapter(private val mContext: Context,
             val editor = mContext.getSharedPreferences("PREFS", Context.MODE_PRIVATE).edit()
             editor.putString("postId", post.getPostId())
             editor.apply()
-            (mContext as FragmentActivity).getSupportFragmentManager().beginTransaction()
+            (mContext as FragmentActivity).supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, PostDetailsFragment()).commit()
         }
 
@@ -73,7 +72,7 @@ class PostAdapter(private val mContext: Context,
             val editor = mContext.getSharedPreferences("PREFS", Context.MODE_PRIVATE).edit()
             editor.putString("profileId", post.getPublisher())
             editor.apply()
-            (mContext as FragmentActivity).getSupportFragmentManager().beginTransaction()
+            (mContext as FragmentActivity).supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, ProfileFragment()).commit()
         }
 
@@ -81,7 +80,7 @@ class PostAdapter(private val mContext: Context,
             val editor = mContext.getSharedPreferences("PREFS", Context.MODE_PRIVATE).edit()
             editor.putString("profileId", post.getPublisher())
             editor.apply()
-            (mContext as FragmentActivity).getSupportFragmentManager().beginTransaction()
+            (mContext as FragmentActivity).supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, ProfileFragment()).commit()
         }
 
@@ -89,7 +88,7 @@ class PostAdapter(private val mContext: Context,
             val editor = mContext.getSharedPreferences("PREFS", Context.MODE_PRIVATE).edit()
             editor.putString("postId", post.getPostId())
             editor.apply()
-            (mContext as FragmentActivity).getSupportFragmentManager().beginTransaction()
+            (mContext as FragmentActivity).supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, PostDetailsFragment()).commit()
         }
 

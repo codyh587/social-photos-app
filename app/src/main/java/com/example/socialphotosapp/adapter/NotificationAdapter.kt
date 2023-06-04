@@ -21,8 +21,6 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
-import kotlinx.android.synthetic.main.activity_comments.*
-import kotlinx.android.synthetic.main.fragment_profile.view.*
 
 class NotificationAdapter(private val mContext: Context,
                           private val mNotification: List<Notification>
@@ -64,14 +62,14 @@ class NotificationAdapter(private val mContext: Context,
                 val editor = mContext.getSharedPreferences("PREFS", Context.MODE_PRIVATE).edit()
                 editor.putString("postId", notification.getPostId())
                 editor.apply()
-                (mContext as FragmentActivity).getSupportFragmentManager().beginTransaction()
+                (mContext as FragmentActivity).supportFragmentManager.beginTransaction()
                     .replace(R.id.fragment_container, PostDetailsFragment()).commit()
 
             } else {
                 val editor = mContext.getSharedPreferences("PREFS", Context.MODE_PRIVATE).edit()
                 editor.putString("profileId", notification.getUserId())
                 editor.apply()
-                (mContext as FragmentActivity).getSupportFragmentManager().beginTransaction()
+                (mContext as FragmentActivity).supportFragmentManager.beginTransaction()
                     .replace(R.id.fragment_container, ProfileFragment()).commit()
             }
         }
@@ -101,7 +99,7 @@ class NotificationAdapter(private val mContext: Context,
                 if (dataSnapshot.exists()) {
                     val user = dataSnapshot.getValue<User>(User::class.java)
                     Picasso.get().load(user!!.getImage()).placeholder(R.drawable.profile).into(imageView)
-                    username.text = user!!.getUsername()
+                    username.text = user.getUsername()
                 }
             }
 

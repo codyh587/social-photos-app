@@ -1,9 +1,9 @@
 package com.example.socialphotosapp
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.socialphotosapp.adapter.CommentsAdapter
@@ -16,7 +16,6 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.activity_add_post.*
 import kotlinx.android.synthetic.main.activity_comments.*
 
 class CommentsActivity : AppCompatActivity() {
@@ -63,7 +62,7 @@ class CommentsActivity : AppCompatActivity() {
     private fun addComment() {
         val commentsRef = FirebaseDatabase.getInstance().reference
             .child("Comments")
-            .child(postId!!)
+            .child(postId)
 
         val commentsMap = HashMap<String, Any>()
         commentsMap["comment"] = add_comment!!.text.toString()
@@ -91,7 +90,7 @@ class CommentsActivity : AppCompatActivity() {
     private fun getPostImage() {
         val postRef = FirebaseDatabase.getInstance().reference
             .child("Posts")
-            .child(postId!!)
+            .child(postId)
             .child("postimage")
 
         postRef.addValueEventListener(object: ValueEventListener {

@@ -3,11 +3,11 @@ package com.example.socialphotosapp.fragments
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -27,7 +27,6 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.android.synthetic.main.fragment_profile.view.*
 import java.util.*
-import kotlin.collections.ArrayList
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -139,14 +138,14 @@ class ProfileFragment : Fragment() {
                 "Edit Profile" -> startActivity(Intent(context, AccountSettingsActivity::class.java))
 
                 "Follow" -> {
-                    firebaseUser?.uid.let { it1 ->
+                    firebaseUser.uid.let { it1 ->
                         FirebaseDatabase.getInstance().reference
                             .child("Follow").child(it1.toString())
                             .child("Following").child(profileId)
                             .setValue(true)
                     }
 
-                    firebaseUser?.uid.let { it1 ->
+                    firebaseUser.uid.let { it1 ->
                         FirebaseDatabase.getInstance().reference
                             .child("Follow").child(profileId)
                             .child("Followers").child(it1.toString())
@@ -157,14 +156,14 @@ class ProfileFragment : Fragment() {
                 }
 
                 "Following" -> {
-                    firebaseUser?.uid.let { it1 ->
+                    firebaseUser.uid.let { it1 ->
                         FirebaseDatabase.getInstance().reference
                             .child("Follow").child(it1.toString())
                             .child("Following").child(profileId)
                             .removeValue()
                     }
 
-                    firebaseUser?.uid.let { it1 ->
+                    firebaseUser.uid.let { it1 ->
                         FirebaseDatabase.getInstance().reference
                             .child("Follow").child(profileId)
                             .child("Followers").child(it1.toString())
@@ -189,7 +188,7 @@ class ProfileFragment : Fragment() {
     }
 
     private fun checkFollowAndFollowingButtonStatus() {
-        val followingRef = firebaseUser?.uid.let { it1 ->
+        val followingRef = firebaseUser.uid.let { it1 ->
             FirebaseDatabase.getInstance().reference
                 .child("Follow").child(it1.toString())
                 .child("Following")
@@ -272,9 +271,9 @@ class ProfileFragment : Fragment() {
                 if (dataSnapshot.exists()) {
                     val user = dataSnapshot.getValue<User>(User::class.java)
                     Picasso.get().load(user!!.getImage()).placeholder(R.drawable.profile).into(view?.pro_image_profile_frag)
-                    view?.profile_fragment_username?.text = user!!.getUsername()
-                    view?.full_name_profile_frag?.text = user!!.getFullname()
-                    view?.bio_profile_frag?.text = user!!.getBio()
+                    view?.profile_fragment_username?.text = user.getUsername()
+                    view?.full_name_profile_frag?.text = user.getFullname()
+                    view?.bio_profile_frag?.text = user.getBio()
                 }
             }
 
@@ -379,7 +378,7 @@ class ProfileFragment : Fragment() {
             .child(profileId)
 
         val notifMap = HashMap<String, Any>()
-        notifMap["userid"] = firebaseUser!!.uid
+        notifMap["userid"] = firebaseUser.uid
         notifMap["text"] = "started following you"
         notifMap["postid"] = ""
         notifMap["ispost"] = false

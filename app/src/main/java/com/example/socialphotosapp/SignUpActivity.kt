@@ -2,14 +2,15 @@ package com.example.socialphotosapp
 
 import android.app.ProgressDialog
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_sign_up.*
+import java.util.*
 
 class SignUpActivity : AppCompatActivity() {
 
@@ -67,8 +68,8 @@ class SignUpActivity : AppCompatActivity() {
 
         val userMap = HashMap<String, Any>()
         userMap["uid"] = currentUserID
-        userMap["fullname"] = fullName.toLowerCase()
-        userMap["username"] = username.toLowerCase()
+        userMap["fullname"] = fullName.lowercase(Locale.getDefault())
+        userMap["username"] = username.lowercase(Locale.getDefault())
         userMap["email"] = email
         userMap["bio"] = "I just joined. Say hello!"
         userMap["image"] = BuildConfig.DEFAULT_IMAGE_URL

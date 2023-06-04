@@ -63,7 +63,7 @@ class CommentsAdapter(private val mContext: Context,
                 if(dataSnapshot.exists()) {
                     val user = dataSnapshot.getValue(User::class.java)
                     Picasso.get().load(user!!.getImage()).placeholder(R.drawable.profile).into(imageProfile)
-                    usernameTV.text = user!!.getUsername()
+                    usernameTV.text = user.getUsername()
                 }
             }
 

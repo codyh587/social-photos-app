@@ -1,7 +1,7 @@
 package com.example.socialphotosapp
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -11,7 +11,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import kotlin.collections.ArrayList
+import java.util.*
 
 class ShowUsersActivity : AppCompatActivity() {
 
@@ -32,7 +32,11 @@ class ShowUsersActivity : AppCompatActivity() {
 
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
-        supportActionBar!!.title = title.capitalize()
+        supportActionBar!!.title = title.replaceFirstChar {
+            if (it.isLowerCase()) it.titlecase(
+                Locale.getDefault()
+            ) else it.toString()
+        }
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         toolbar.setNavigationOnClickListener {
             finish()
@@ -116,7 +120,7 @@ class ShowUsersActivity : AppCompatActivity() {
     private fun getLikes() {
         val likesRef = FirebaseDatabase.getInstance().reference
             .child("Likes")
-            .child(id!!)
+            .child(id)
 
         likesRef.addValueEventListener(object: ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {

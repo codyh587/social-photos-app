@@ -1,11 +1,11 @@
 package com.example.socialphotosapp
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.example.socialphotosapp.model.Story
 import com.example.socialphotosapp.model.User
 import com.google.firebase.auth.FirebaseAuth
@@ -114,7 +114,7 @@ class StoryActivity : AppCompatActivity(), StoriesProgressView.StoriesListener {
                     val story: Story? = snapshot.getValue(Story::class.java)
                     val timeCurrent = System.currentTimeMillis()
 
-                    if (timeCurrent > story!!.getTimeStart() && timeCurrent < story!!.getTimeEnd()) {
+                    if (timeCurrent > story!!.getTimeStart() && timeCurrent < story.getTimeEnd()) {
                         (imagesList as ArrayList<String>).add(story.getImageUrl())
                         (storyIdsList as ArrayList<String>).add(story.getStoryId())
                     }

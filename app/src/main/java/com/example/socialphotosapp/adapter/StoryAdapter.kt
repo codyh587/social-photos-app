@@ -11,7 +11,6 @@ import android.widget.TextView
 import androidx.annotation.NonNull
 import androidx.recyclerview.widget.RecyclerView
 import com.example.socialphotosapp.AddStoryActivity
-import com.example.socialphotosapp.MainActivity
 import com.example.socialphotosapp.R
 import com.example.socialphotosapp.StoryActivity
 import com.example.socialphotosapp.model.Story
@@ -23,7 +22,6 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
-import kotlinx.android.synthetic.main.fragment_profile.view.*
 
 class StoryAdapter(private val mContext: Context,
                    private val mStory: List<Story>): RecyclerView.Adapter<StoryAdapter.ViewHolder>() {
@@ -126,7 +124,7 @@ class StoryAdapter(private val mContext: Context,
 
                 for (snapshot in dataSnapshot.children) {
                     val story = snapshot.getValue(Story::class.java)
-                    if (timeCurrent > story!!.getTimeStart() && timeCurrent < story!!.getTimeEnd()) {
+                    if (timeCurrent > story!!.getTimeStart() && timeCurrent < story.getTimeEnd()) {
                         storyAvailable = true
                         break
                     }

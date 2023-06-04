@@ -1,10 +1,10 @@
 package com.example.socialphotosapp.fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.socialphotosapp.R
@@ -16,7 +16,6 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import java.util.*
-import kotlin.collections.ArrayList
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -53,8 +52,8 @@ class NotificationsFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_notifications, container, false)
 
         var recyclerView: RecyclerView = view.findViewById(R.id.recycler_view_notifications)
-        recyclerView?.setHasFixedSize(true)
-        recyclerView?.layoutManager = LinearLayoutManager(context)
+        recyclerView.setHasFixedSize(true)
+        recyclerView.layoutManager = LinearLayoutManager(context)
 
         notificationList = ArrayList()
         notificationAdapter = NotificationAdapter(requireContext(), notificationList as ArrayList<Notification>)

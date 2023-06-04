@@ -3,11 +3,10 @@ package com.example.socialphotosapp.fragments
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.widget.addTextChangedListener
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.socialphotosapp.R
@@ -18,6 +17,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.fragment_search.view.*
+import java.util.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -74,7 +74,7 @@ class SearchFragment : Fragment() {
                     recyclerView?.visibility = View.VISIBLE
 
                     retrieveUsers()
-                    searchUser(p0.toString().toLowerCase())
+                    searchUser(p0.toString().lowercase(Locale.getDefault()))
                 }
             }
         })
@@ -83,7 +83,7 @@ class SearchFragment : Fragment() {
     }
 
     private fun searchUser(input: String) {
-        val query = FirebaseDatabase.getInstance().getReference()
+        val query = FirebaseDatabase.getInstance().reference
             .child("Users")
             .orderByChild("fullname")
             .startAt(input)
