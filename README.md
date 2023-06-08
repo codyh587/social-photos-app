@@ -24,6 +24,6 @@ https://github.com/codyh587/social-photos-app/assets/108317527/b5cad702-0ed9-489
 
 ### Application Screenshots
 
-> ![notifications](https://github.com/codyh587/social-photos-app/assets/108317527/890908e4-cf56-449e-b49f-d6c5f1bffeb9)
+> <img src="https://user-images.githubusercontent.com/108317527/244251380-890908e4-cf56-449e-b49f-d6c5f1bffeb9.jpg" alt="notifications" width="400">
 
-> ![story-views](https://github.com/codyh587/social-photos-app/assets/108317527/94299837-20f9-4cdc-bfdc-eec96e4bb77f)
+> <img src="https://user-images.githubusercontent.com/108317527/244251403-94299837-20f9-4cdc-bfdc-eec96e4bb77f.jpg" alt="story-views" width="400">
