@@ -1,1 +1,1 @@
-### Include google-services.json file in this folder
+#### Include google-services.json file from Firebase in this folder
