@@ -11,7 +11,7 @@ Features:
 * View followers/following
 * Upload photos
 * Like/comment/save photos
-* View photo likes
+* View photo likes/comments
 * Upload stories
 * View who has seen your story
 
